@@ -1,9 +1,15 @@
-import { mockUser, mockSkills, mockRoadmap, mockAssessments } from '../services/mockData';
+import { mockSkills, mockRoadmap, mockAssessments } from '../services/mockData';
 import { Trophy, Target, BookOpen, Clock, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function Dashboard() {
+  const { profile } = useAuth();
+  
+  const firstName = profile?.name ? profile.name.split(' ')[0] : 'User';
+  const targetCareer = profile?.target_career || 'Not set';
+
   const chartData = mockSkills.map(skill => ({
     name: skill.name,
     current: skill.currentLevel,
@@ -16,8 +22,8 @@ export default function Dashboard() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Welcome back, {mockUser.name.split(' ')[0]}!</h1>
-          <p className="text-gray-500">Target Career: <span className="font-semibold text-primary-600">{mockUser.targetCareer}</span></p>
+          <h1 className="text-2xl font-bold text-gray-900">Welcome back, {firstName}!</h1>
+          <p className="text-gray-500">Target Career: <span className="font-semibold text-primary-600">{targetCareer}</span></p>
         </div>
         <button className="bg-primary-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-primary-700 shadow-sm flex items-center gap-2">
           <Target size={18} /> Take Daily Assessment

@@ -1,4 +1,5 @@
-import { Outlet, Link, useLocation } from 'react-router-dom';
+import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import { 
   LayoutDashboard, 
   User, 
@@ -13,6 +14,14 @@ import {
 
 const Sidebar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { signOut } = useAuth();
+  
+  const handleSignOut = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    await signOut();
+    navigate('/login');
+  };
   
   const navItems = [
     { name: 'Dashboard', path: '/dashboard', icon: <LayoutDashboard size={20} /> },
@@ -64,10 +73,13 @@ const Sidebar = () => {
           <Settings size={20} className="mr-3 text-gray-400" />
           Settings
         </Link>
-        <Link to="/" className="flex items-center px-3 py-2 text-sm font-medium text-red-600 rounded-lg hover:bg-red-50">
+        <button 
+          onClick={handleSignOut}
+          className="flex items-center w-full px-3 py-2 text-sm font-medium text-red-600 rounded-lg hover:bg-red-50"
+        >
           <LogOut size={20} className="mr-3 text-red-500" />
           Sign out
-        </Link>
+        </button>
       </div>
     </div>
   );
