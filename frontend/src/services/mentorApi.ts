@@ -1,6 +1,6 @@
 import { supabase } from './supabase';
 // Force HMR reload for port 8001
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8001';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || (import.meta.env.DEV ? 'http://127.0.0.1:8001' : 'https://dsseduai-backend.onrender.com');
 
 export async function askMentor(message: string): Promise<string> {
   try {
