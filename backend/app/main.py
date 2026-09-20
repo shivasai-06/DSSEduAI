@@ -11,21 +11,20 @@ app = FastAPI(
 )
 
 # Set all CORS enabled origins
-if settings.BACKEND_CORS_ORIGINS:
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=[
-            str(origin).rstrip("/")
-            for origin in settings.BACKEND_CORS_ORIGINS
-        ] + [
-            "http://localhost:5179",
-            "http://127.0.0.1:5179",
-            "https://dsseduai-aeunkomqo-shivasai-06.vercel.app",
-        ],
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        str(origin).rstrip("/")
+        for origin in settings.BACKEND_CORS_ORIGINS
+    ] + [
+        "http://localhost:5179",
+        "http://127.0.0.1:5179",
+        "https://dsseduai-aeunkomqo-shivasai-06.vercel.app",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.include_router(api_router, prefix=settings.API_V1_STR)
 
