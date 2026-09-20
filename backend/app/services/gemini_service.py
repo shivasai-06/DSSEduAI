@@ -52,6 +52,8 @@ class GeminiService:
             )
             return response.text
         except Exception as e:
+            import logging
+            logging.error(f"Gemini API error: {type(e).__name__}: {str(e)}")
             # We don't want to expose raw API errors or stack traces
             raise RuntimeError("Failed to generate response from Gemini API.") from e
 
