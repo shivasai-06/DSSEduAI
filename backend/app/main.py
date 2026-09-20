@@ -18,6 +18,7 @@ app.add_middleware(
         "http://127.0.0.1:5179",
         "https://dss-eduai-fk2cii47j-shivasai-06.vercel.app",
         "https://dsseduai-front.vercel.app",
+        "https://dss-eduai-i191k0w9x-shivasai-06.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
