@@ -16,7 +16,7 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:5179",
         "http://127.0.0.1:5179",
-        "https://dsseduai-aeunkomqo-shivasai-06.vercel.app",
+        "https://dss-eduai-fk2cii47j-shivasai-06.vercel.app",
         "https://dsseduai-front.vercel.app",
     ],
     allow_credentials=True,
