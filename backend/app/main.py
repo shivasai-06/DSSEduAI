@@ -19,6 +19,7 @@ app.add_middleware(
         "https://dss-eduai-fk2cii47j-shivasai-06.vercel.app",
         "https://dsseduai-front.vercel.app",
         "https://dss-eduai-i191k0w9x-shivasai-06.vercel.app",
+        "https://dsseduai.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
