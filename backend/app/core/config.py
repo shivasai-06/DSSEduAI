@@ -33,3 +33,9 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
+
+key_val = settings.GEMINI_API_KEY
+is_present = bool(key_val)
+key_length = len(key_val) if key_val else 0
+
+print(f"GEMINI_API_KEY present={is_present} length={key_length}", flush=True)
