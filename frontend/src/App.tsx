@@ -12,6 +12,8 @@ import SkillGaps from './pages/SkillGaps';
 import Roadmap from './pages/Roadmap';
 import Mentor from './pages/Mentor';
 import Progress from './pages/Progress';
+import Resources from './pages/Resources';
+import Settings from './pages/Settings';
 
 function App() {
   return (
@@ -31,6 +33,8 @@ function App() {
               <Route path="/roadmap" element={<Roadmap />} />
               <Route path="/mentor" element={<Mentor />} />
               <Route path="/progress" element={<Progress />} />
+              <Route path="/resources" element={<Resources />} />
+              <Route path="/settings" element={<Settings />} />
             </Route>
           </Route>
         </Routes>
