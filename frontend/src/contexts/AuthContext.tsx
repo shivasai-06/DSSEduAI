@@ -38,16 +38,41 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   // Fetch the extended profile from public.users
-  const fetchProfile = async (userId: string) => {
-    const { data } = await supabase
-      .from('users')
-      .select('*')
-      .eq('id', userId)
-      .single();
-    
-    if (data) {
-      setProfile(data);
-    } else {
+  const fetchProfile = async (currentUser: User) => {
+    try {
+      // Use maybeSingle to avoid 406 Not Acceptable error when row is missing
+      const { data, error } = await supabase
+        .from('users')
+        .select('*')
+        .eq('id', currentUser.id)
+        .maybeSingle();
+      
+      if (data) {
+        setProfile(data);
+      } else {
+        // Create profile if it doesn't exist (e.g. Google OAuth login)
+        const name = currentUser.user_metadata?.full_name || 
+                     currentUser.user_metadata?.name || 
+                     currentUser.email?.split('@')[0] || 
+                     'User';
+                     
+        const { data: newProfile, error: insertError } = await supabase
+          .from('users')
+          .insert([
+            { id: currentUser.id, name: name, email: currentUser.email }
+          ])
+          .select()
+          .single();
+          
+        if (insertError) {
+          console.error('Error creating user profile:', insertError);
+          setProfile(null);
+        } else {
+          setProfile(newProfile);
+        }
+      }
+    } catch (err) {
+      console.error('Error fetching/creating profile:', err);
       setProfile(null);
     }
   };
@@ -58,7 +83,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setSession(session);
       setUser(session?.user ?? null);
       if (session?.user) {
-        fetchProfile(session.user.id).finally(() => setLoading(false));
+        fetchProfile(session.user).finally(() => setLoading(false));
       } else {
         setLoading(false);
       }
@@ -70,7 +95,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setSession(session);
         setUser(session?.user ?? null);
         if (session?.user) {
-          await fetchProfile(session.user.id);
+          await fetchProfile(session.user);
         } else {
           setProfile(null);
         }
@@ -89,7 +114,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const refreshProfile = async () => {
     if (user) {
-      await fetchProfile(user.id);
+      await fetchProfile(user);
     }
   };
 
