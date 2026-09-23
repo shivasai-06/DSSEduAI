@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const fetchProfile = async (currentUser: User) => {
     try {
       // Use maybeSingle to avoid 406 Not Acceptable error when row is missing
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from('users')
         .select('*')
         .eq('id', currentUser.id)
